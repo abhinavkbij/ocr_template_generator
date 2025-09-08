@@ -1,42 +1,233 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+
+/* Basic layout */
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    color: #0f172a;
+    background: #ffffff;
+    overflow: hidden; /* Prevent page-level scrolling */
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header h1 {
+    font-size: 18px;
+    margin: 0;
+    flex: 1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
 }
 
-.card {
-  padding: 2em;
+.file input[type="file"] {
+    border: 1px solid #d1d5db;
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: #f9fafb;
 }
 
-.read-the-docs {
-  color: #888;
+button {
+    border: 1px solid #d1d5db;
+    background: #f8fafc;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button.primary {
+    background: #2563eb;
+    border-color: #1d4ed8;
+    color: white;
+}
+
+button.danger {
+    background: #fee2e2;
+    border-color: #fecaca;
+    color: #991b1b;
+}
+
+button.link {
+    background: transparent;
+    border: none;
+    color: #2563eb;
+    padding: 0 4px;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 0;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+@media (max-width: 900px) {
+    .main {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Canvas pane - scrollable area for the image */
+.canvas-pane {
+    position: relative;
+    background: #f8fafc;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    /* This creates the scrollable viewport for the image */
+}
+
+/* Canvas container that can be larger than the viewport */
+.canvas-container {
+    padding: 16px;
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.canvas {
+    display: block;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    /* Allow the canvas to be its natural size */
+    flex-shrink: 0;
+}
+
+.canvas--grab {
+    cursor: grab;
+}
+.canvas--grab:active {
+    cursor: grabbing;
+}
+
+.canvas--empty {
+    min-height: 320px;
+    width: calc(100% - 32px); /* Account for container padding */
+}
+
+.placeholder {
+    position: absolute;
+    inset: 16px;
+    display: grid;
+    place-items: center;
+    color: #64748b;
+    pointer-events: none;
+}
+
+/* Side panel - fixed and independently scrollable */
+.side {
+    border-left: 1px solid #e5e7eb;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: #ffffff;
+    /* Ensure it stays fixed while left side scrolls */
+    flex-shrink: 0;
+}
+
+.side h2 {
+    font-size: 14px;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.muted {
+    color: #64748b;
+}
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.list-item {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px;
+    background: #fff;
+    flex-shrink: 0;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.badge {
+    background: #2dd4bf;
+    color: #053b37;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 999px;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.name-input {
+    flex: 1;
+    border: 1px solid #d1d5db;
+    padding: 6px 8px;
+    border-radius: 6px;
+}
+
+.coords {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 12px;
+    color: #334155;
+    margin-top: 6px;
+}
+
+/* JSON output */
+.json {
+    width: 100%;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+    flex: 1;
+    min-height: 200px;
+    resize: vertical;
+}
+
+/* Footer */
+.footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 8px 16px;
+    color: #64748b;
+    flex-shrink: 0;
 }
